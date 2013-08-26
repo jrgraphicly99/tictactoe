@@ -77,28 +77,34 @@ Player 1 has "X" and player 2 has "O". Reset the game by click on Reset Game but
       if(whoseTurn == 1){
         $(btn).val("  X  ")
         whoseTurn = 2
+        $("#whoseturn").val("Turn of Player : 2")
         matrix[dim][subdim] = 1
         if(winningConditions(1)){
           alert("player 1 wins")
+          resetGame()
           return
         }
       }else{
         $(btn).val("  O  ")
         whoseTurn = 1
+        $("#whoseturn").val("Turn of Player : 1")
         matrix[dim][subdim] = 2
         if(winningConditions(2)){
           alert("player 2 wins")
+          resetGame()
           return
         }
       }
       if(IsGameOver() && !winningConditions(2) && !winningConditions(1)){
         alert("match draw")
+        resetGame()
       }
     }
     
     //reset the entire game board 
     function resetGame(){
       intializeMatrix()
+      $("#whoseturn").val("Turn of Player : 1")
       $(".boardBtn").each(function(index,btn){
         $(btn).val("      ")
       })
@@ -113,7 +119,7 @@ Player 1 has "X" and player 2 has "O". Reset the game by click on Reset Game but
   Player 1 is "X"<br>
   Player 2 is "O"
     <form>
-      <input type="button" id="" name="whoseturn" value = "Turn Player : 1">
+      <input type="button" id="whoseturn" name="whoseturn" value = "Turn of Player : 1">
       <br><br><br><br>
       <table>
         <tr>
