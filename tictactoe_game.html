@@ -1,0 +1,159 @@
+<!-- 
+This is player to player tic tac toe game with 3X3 board
+Player 1 has "X" and player 2 has "O". Reset the game by click on Reset Game button
+!-->
+
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script  type="text/javascript">
+
+    //specify whose turn to play ,  default is player one
+    var whoseTurn = 1;
+
+    //This function will check whether any of the row or diagonal is filled up ?
+    function winningConditions(val) {
+        if (matrix[0][0] == val && matrix[0][1] == val && matrix[0][2] == val)
+            return true
+        else if (matrix[1][0] == val && matrix[1][1] == val && matrix[1][2] == val)
+            return true
+        else if (matrix[2][0] == val && matrix[2][1] == val && matrix[2][2] == val)
+            return true
+        else if (matrix[0][0] == val && matrix[1][0] == val && matrix[2][0] == val)
+            return true
+        else if (matrix[0][1] == val && matrix[1][1] == val && matrix[2][1] == val)
+            return true
+        else if (matrix[0][2] == val && matrix[1][2] == val && matrix[2][2] == val)
+            return true
+        else if (matrix[0][0] == val && matrix[1][1] == val && matrix[2][2] == val)
+            return true
+        else if (matrix[0][2] == val && matrix[1][1] == val && matrix[2][0] == val)
+            return true
+        else
+            return false
+    }
+    
+    //create mattrix of 3X3
+    matrix = new Array(3)
+    
+    //Intialize matrix with default value
+    function intializeMatrix(){
+    
+      for (i = 0; i < matrix.length; i++ ){
+         matrix[i] = new Array(3)
+      }
+      
+      for (i = 0; i< matrix.length; i++ ){
+	      for (j = 0; j< matrix[i].length; j++ ){
+		      matrix[i][j] = 0
+        }
+      }
+      
+    }
+    
+    //check whether game is over or not
+    function IsGameOver(){
+    
+      for (i = 0; i< matrix.length; i++ ){
+      
+	      for (j = 0; j< matrix[i].length; j++ ){
+  		    if (matrix[i][j] != 1 && matrix[i][j] != 2 )
+	  		    return false
+	      }
+      }
+       return true
+    }
+    
+    //display the play of player, check whether game is over, 
+    //decide who is the winner of game
+    function play(btn){
+      var dim = parseInt($(btn).attr("data-dim"))
+      var subdim = parseInt($(btn).attr("data-subdim"))
+      
+      if(IsGameOver()){
+        alert("Game Over")
+        return;
+      }
+      if(whoseTurn == 1){
+        $(btn).val("  X  ")
+        whoseTurn = 2
+        matrix[dim][subdim] = 1
+        if(winningConditions(1)){
+          alert("player 1 wins")
+          return
+        }
+      }else{
+        $(btn).val("  O  ")
+        whoseTurn = 1
+        matrix[dim][subdim] = 2
+        if(winningConditions(2)){
+          alert("player 2 wins")
+          return
+        }
+      }
+      if(IsGameOver() && !winningConditions(2) && !winningConditions(1)){
+        alert("match draw")
+      }
+    }
+    
+    //reset the entire game board 
+    function resetGame(){
+      intializeMatrix()
+      $(".boardBtn").each(function(index,btn){
+        $(btn).val("      ")
+      })
+    }
+    
+  </script>
+
+</head>
+
+<body onload="intializeMatrix()">
+  <center>
+  Player 1 is "X"<br>
+  Player 2 is "O"
+    <form>
+      <input type="button" id="" name="whoseturn" value = "Turn Player : 1">
+      <br><br><br><br>
+      <table>
+        <tr>
+          <td>
+            <input type="button" class="boardBtn" name ="b1" data-dim="0" data-subdim="0" value = "      "		 onClick ="play(this)">
+          </td>
+          <td>
+            <input type = "button" class="boardBtn" name = "b2" data-dim="0" data-subdim="1" value = "      "		 onClick ="play(this)">
+          </td>
+          <td>
+            <input type = "button" class="boardBtn" name = "b3" data-dim="0" data-subdim="2" value = "      "		 onClick ="play(this)">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type = "button" class="boardBtn" name = "b4" data-dim="1" data-subdim="0" value = "      "		 onClick ="play(this)"> 
+          </td>
+          <td>
+            <input type = "button" class="boardBtn" name = "b5" data-dim="1" data-subdim="1" value = "      "		 onClick ="play(this)"> 
+          </td>
+          <td>
+            <input type = "button" class="boardBtn" name = "b6" data-dim="1" data-subdim="2" value = "      "		 onClick ="play(this)"> 
+          </td>
+        <tr>
+          <td>
+            <input type = "button" class="boardBtn" name = "b7" data-dim="2" data-subdim="0" value = "      "		 onClick ="play(this)"> 
+          </td>
+          <td>
+            <input type = "button" class="boardBtn" name = "b8" data-dim="2" data-subdim="1" value = "      "		 onClick ="play(this)">
+          </td>
+          <td>
+            <input type = "button" class="boardBtn" name = "b9" data-dim="2" data-subdim="2" value = "      " onClick ="play(this)">
+          </td>
+        </tr>
+    </table>
+    <br>
+
+      <input type="button" value="Reset Game" onClick="resetGame()">
+      
+    </form>
+  </center>
+</body>
+</html>
